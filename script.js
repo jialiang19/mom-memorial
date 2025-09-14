@@ -174,3 +174,42 @@ document.addEventListener('DOMContentLoaded', function() {
     //     typeWriter(heroTitle, originalText, 150);
     // }
 });
+// Music Player Functionality
+document.addEventListener("DOMContentLoaded", function() {
+    const audio = document.getElementById("memorial-music");
+    const playPauseBtn = document.getElementById("play-pause-btn");
+    const playIcon = document.getElementById("play-icon");
+    const volumeSlider = document.getElementById("volume-slider");
+    
+    if (audio && playPauseBtn && playIcon && volumeSlider) {
+        // Set initial volume
+        audio.volume = 0.5;
+        
+        // Play/Pause functionality
+        playPauseBtn.addEventListener("click", function() {
+            if (audio.paused) {
+                audio.play();
+                playIcon.textContent = "⏸️";
+            } else {
+                audio.pause();
+                playIcon.textContent = "▶️";
+            }
+        });
+        
+        // Volume control
+        volumeSlider.addEventListener("input", function() {
+            audio.volume = this.value / 100;
+        });
+        
+        // Update play icon when audio ends
+        audio.addEventListener("ended", function() {
+            playIcon.textContent = "▶️";
+        });
+        
+        // Handle audio loading errors
+        audio.addEventListener("error", function() {
+            console.log("Audio file could not be loaded");
+            playPauseBtn.style.display = "none";
+        });
+    }
+});
