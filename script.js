@@ -1,3 +1,86 @@
+// Global createLightbox function - moved outside DOMContentLoaded
+function createLightbox(src, alt) {
+    // 创建灯箱覆盖层
+    const lightbox = document.createElement('div');
+    lightbox.className = 'lightbox';
+    lightbox.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        cursor: pointer;
+    `;
+
+    // 创建图片
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = alt;
+    img.style.cssText = `
+        max-width: 90%;
+        max-height: 90%;
+        object-fit: contain;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    `;
+
+    // 创建关闭按钮
+    const closeBtn = document.createElement('div');
+    closeBtn.innerHTML = '×';
+    closeBtn.style.cssText = `
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        color: white;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 1001;
+    `;
+
+    // 创建标题
+    const caption = document.createElement('div');
+    caption.textContent = alt;
+    caption.style.cssText = `
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: white;
+        font-size: 16px;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 10px 20px;
+        border-radius: 20px;
+    `;
+
+    // 组装灯箱
+    lightbox.appendChild(img);
+    lightbox.appendChild(closeBtn);
+    lightbox.appendChild(caption);
+    document.body.appendChild(lightbox);
+
+    // 关闭功能
+    function closeLightbox() {
+        document.body.removeChild(lightbox);
+    }
+
+    lightbox.addEventListener('click', closeLightbox);
+    closeBtn.addEventListener('click', closeLightbox);
+
+    // ESC键关闭
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeLightbox();
+        }
+    });
+}
+
 // 平滑滚动导航功能
 document.addEventListener('DOMContentLoaded', function() {
     // 为导航链接添加平滑滚动
@@ -20,33 +103,28 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // 根据滚动位置为导航链接添加活动状态
-    const sections = document.querySelectorAll('.section');
-    const navItems = document.querySelectorAll('.navigation a');
-
-    function updateActiveNav() {
-        let current = '';
+    window.addEventListener('scroll', function() {
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('.navigation a');
         
+        let current = '';
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
             const sectionHeight = section.clientHeight;
-            
-            if (window.scrollY >= (sectionTop - 200)) {
+            if (window.pageYOffset >= sectionTop - 200) {
                 current = section.getAttribute('id');
             }
         });
 
-        navItems.forEach(item => {
-            item.classList.remove('active');
-            if (item.getAttribute('href') === '#' + current) {
-                item.classList.add('active');
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + current) {
+                link.classList.add('active');
             }
         });
-    }
+    });
 
-    // 滚动时更新活动导航
-    window.addEventListener('scroll', updateActiveNav);
-
-    // 元素淡入动画
+    // 淡入动画
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -61,9 +139,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, observerOptions);
 
-    // 观察元素进行淡入动画
-    const animateElements = document.querySelectorAll('.memory-card, .photo-item, .timeline-item, .tribute-card, .life-stage-section');
-    
+    // 观察需要动画的元素
+    const animateElements = document.querySelectorAll('.section, .life-stage-section, .timeline-item, .photo-item');
     animateElements.forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
@@ -71,109 +148,14 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(el);
     });
 
-    // 照片画廊灯箱功能 - 现在通过事件委托处理动态加载的照片
+    // 照片点击事件 - 使用事件委托
     document.addEventListener('click', function(e) {
         if (e.target.tagName === 'IMG' && e.target.closest('.photo-item')) {
             createLightbox(e.target.src, e.target.alt);
         }
     });
-
-    function createLightbox(src, alt) {
-        // 创建灯箱覆盖层
-        const lightbox = document.createElement('div');
-        lightbox.className = 'lightbox';
-        lightbox.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            cursor: pointer;
-        `;
-
-        // 创建图片
-        const img = document.createElement('img');
-        img.src = src;
-        img.alt = alt;
-        img.style.cssText = `
-            max-width: 90%;
-            max-height: 90%;
-            object-fit: contain;
-            border-radius: 10px;
-        `;
-
-        // 创建关闭按钮
-        const closeBtn = document.createElement('div');
-        closeBtn.innerHTML = '&times;';
-        closeBtn.style.cssText = `
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            color: white;
-            font-size: 40px;
-            cursor: pointer;
-            z-index: 1001;
-        `;
-
-        lightbox.appendChild(img);
-        lightbox.appendChild(closeBtn);
-        document.body.appendChild(lightbox);
-
-        // 关闭灯箱
-        function closeLightbox() {
-            document.body.removeChild(lightbox);
-        }
-
-        lightbox.addEventListener('click', closeLightbox);
-        closeBtn.addEventListener('click', closeLightbox);
-
-        // 按ESC键关闭
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeLightbox();
-            }
-        });
-    }
-
-    // 为英雄区域添加视差效果
-    window.addEventListener('scroll', function() {
-        const scrolled = window.pageYOffset;
-        const hero = document.querySelector('.hero');
-        const rate = scrolled * -0.5;
-        
-        if (hero) {
-            hero.style.transform = `translateY(${rate}px)`;
-        }
-    });
-
-    // 打字机效果（可选）
-    function typeWriter(element, text, speed = 100) {
-        let i = 0;
-        element.innerHTML = '';
-        
-        function type() {
-            if (i < text.length) {
-                element.innerHTML += text.charAt(i);
-                i++;
-                setTimeout(type, speed);
-            }
-        }
-        
-        type();
-    }
-
-    // 如果需要为标题添加打字效果，取消下面的注释
-    // const heroTitle = document.querySelector('.hero-title');
-    // if (heroTitle) {
-    //     const originalText = heroTitle.textContent;
-    //     typeWriter(heroTitle, originalText, 150);
-    // }
 });
+
 // Music Player Functionality
 document.addEventListener("DOMContentLoaded", function() {
     const audio = document.getElementById("memorial-music");
@@ -201,15 +183,15 @@ document.addEventListener("DOMContentLoaded", function() {
             audio.volume = this.value / 100;
         });
         
-        // Update play icon when audio ends
+        // Update play/pause icon when audio ends
         audio.addEventListener("ended", function() {
             playIcon.textContent = "▶️";
         });
         
-        // Handle audio loading errors
+        // Error handling
         audio.addEventListener("error", function() {
-            console.log("Audio file could not be loaded");
-            playPauseBtn.style.display = "none";
+            console.error("Audio loading error:", audio.error);
+            playIcon.textContent = "❌";
         });
     }
 });
