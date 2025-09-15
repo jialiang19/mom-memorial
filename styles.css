@@ -1186,3 +1186,98 @@ body {
         margin-top: 0 !important;
     }
 }
+
+/* iPhone导航栏进一步优化 */
+@media (max-width: 768px) {
+    /* 导航栏整体 - 更小 */
+    .navigation {
+        padding: 4px 0 !important;
+        background: rgba(139, 69, 19, 0.95) !important;
+        min-height: 35px !important;
+    }
+    
+    /* 导航链接 - 更小 */
+    .navigation a {
+        padding: 3px 6px !important;
+        font-size: 11px !important;
+        margin: 0 1px !important;
+        border-radius: 3px !important;
+        line-height: 1.2 !important;
+    }
+    
+    /* 导航容器 - 更紧凑 */
+    .navigation .container {
+        padding: 0 8px !important;
+    }
+    
+    /* 导航列表 - 更紧凑 */
+    .navigation ul {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* 导航项目 - 更紧凑 */
+    .navigation li {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+}
+
+/* iPhone小屏幕特别优化 */
+@media (max-width: 480px) {
+    .navigation {
+        padding: 3px 0 !important;
+        min-height: 30px !important;
+    }
+    
+    .navigation a {
+        padding: 2px 4px !important;
+        font-size: 10px !important;
+        margin: 0 0.5px !important;
+    }
+    
+    .navigation .container {
+        padding: 0 5px !important;
+    }
+}
+
+/* iPhone超小屏幕 */
+@media (max-width: 375px) {
+    .navigation {
+        padding: 2px 0 !important;
+        min-height: 28px !important;
+    }
+    
+    .navigation a {
+        padding: 2px 3px !important;
+        font-size: 9px !important;
+        margin: 0 !important;
+    }
+    
+    .navigation .container {
+        padding: 0 3px !important;
+    }
+}
+
+/* 确保导航栏不会太高 */
+.navigation {
+    max-height: 40px !important;
+}
+
+@media (max-width: 768px) {
+    .navigation {
+        max-height: 35px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .navigation {
+        max-height: 30px !important;
+    }
+}
+
+@media (max-width: 375px) {
+    .navigation {
+        max-height: 28px !important;
+    }
+}
