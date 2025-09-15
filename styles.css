@@ -1313,3 +1313,74 @@ body {
         min-height: 60px !important;
     }
 }
+
+/* 移动端导航栏宽度修复 */
+@media (max-width: 768px) {
+    .navigation {
+        width: 100% !important;
+        padding: 4px 0 !important;
+        background: rgba(139, 69, 19, 0.95) !important;
+        min-height: 35px !important;
+        box-sizing: border-box !important;
+    }
+    
+    .navigation .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 5px !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+    }
+    
+    .navigation ul {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        list-style: none !important;
+    }
+    
+    .navigation li {
+        flex: 1 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        text-align: center !important;
+    }
+    
+    .navigation a {
+        display: block !important;
+        width: 100% !important;
+        padding: 3px 2px !important;
+        font-size: 10px !important;
+        margin: 0 !important;
+        border-radius: 3px !important;
+        line-height: 1.2 !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
+    }
+}
+
+/* iPhone小屏幕特别优化 */
+@media (max-width: 480px) {
+    .navigation a {
+        font-size: 9px !important;
+        padding: 2px 1px !important;
+    }
+    
+    .navigation .container {
+        padding: 0 3px !important;
+    }
+}
+
+/* iPhone超小屏幕 */
+@media (max-width: 375px) {
+    .navigation a {
+        font-size: 8px !important;
+        padding: 2px 0px !important;
+    }
+    
+    .navigation .container {
+        padding: 0 2px !important;
+    }
+}
