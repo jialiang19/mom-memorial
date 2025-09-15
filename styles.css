@@ -1240,3 +1240,34 @@ body {
         opacity: 1 !important;
     }
 }
+
+/* 移动端导航栏完整隐藏/显示 - 强制样式 */
+@media (max-width: 768px) {
+    .navigation {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 1000 !important;
+        transition: all 0.3s ease-in-out !important;
+        transform: translateY(0) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    
+    /* 为固定导航栏添加顶部间距 */
+    body {
+        padding-top: 0 !important;
+    }
+    
+    .hero {
+        margin-top: 0 !important;
+    }
+    
+    /* 确保导航栏完全隐藏 */
+    .navigation[style*="translateY(-100%)"] {
+        transform: translateY(-100%) !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
+}

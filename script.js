@@ -241,3 +241,47 @@ document.addEventListener("DOMContentLoaded", function() {
         // Transition handled by CSS
     }
 });
+
+// 移动端导航栏完整隐藏/显示功能
+document.addEventListener("DOMContentLoaded", function() {
+    const navigation = document.querySelector(".navigation");
+    
+    if (navigation && window.innerWidth <= 768) {
+        let lastScrollTop = 0;
+        let ticking = false;
+        
+        function updateNavigation() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > lastScrollTop && scrollTop > 50) {
+                // 向下滚动 - 隐藏导航栏
+                navigation.style.transform = "translateY(-100%)";
+                navigation.style.opacity = "0";
+                navigation.style.visibility = "hidden";
+            } else {
+                // 向上滚动 - 显示导航栏
+                navigation.style.transform = "translateY(0)";
+                navigation.style.opacity = "1";
+                navigation.style.visibility = "visible";
+            }
+            
+            lastScrollTop = scrollTop;
+            ticking = false;
+        }
+        
+        function requestTick() {
+            if (!ticking) {
+                requestAnimationFrame(updateNavigation);
+                ticking = true;
+            }
+        }
+        
+        window.addEventListener("scroll", requestTick, { passive: true });
+        
+        // 确保初始状态正确
+        navigation.style.transition = "all 0.3s ease-in-out";
+        navigation.style.transform = "translateY(0)";
+        navigation.style.opacity = "1";
+        navigation.style.visibility = "visible";
+    }
+});
