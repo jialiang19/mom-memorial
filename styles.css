@@ -1271,3 +1271,56 @@ body {
         visibility: hidden !important;
     }
 }
+
+/* 移动端音乐按钮 - 导航栏顶部 */
+@media (max-width: 768px) {
+    /* 隐藏原有的音乐播放器 */
+    .music-player {
+        display: none !important;
+    }
+    
+    /* 移动端音乐按钮 */
+    .mobile-music-btn {
+        position: fixed !important;
+        top: 5px !important;
+        right: 10px !important;
+        z-index: 1001 !important;
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 50% !important;
+        background: rgba(139, 69, 19, 0.9) !important;
+        border: 2px solid white !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .mobile-music-btn:hover {
+        background: rgba(139, 69, 19, 1) !important;
+        transform: scale(1.1) !important;
+    }
+    
+    .mobile-music-btn .music-icon {
+        font-size: 18px !important;
+        color: white !important;
+    }
+    
+    /* 为移动端音乐按钮添加顶部间距 */
+    .navigation {
+        margin-top: 50px !important;
+    }
+}
+
+/* 桌面端保持原有音乐播放器 */
+@media (min-width: 769px) {
+    .mobile-music-btn {
+        display: none !important;
+    }
+    
+    .music-player {
+        display: block !important;
+    }
+}

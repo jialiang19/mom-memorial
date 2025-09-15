@@ -285,3 +285,46 @@ document.addEventListener("DOMContentLoaded", function() {
         navigation.style.visibility = "visible";
     }
 });
+
+// 移动端音乐按钮功能
+document.addEventListener("DOMContentLoaded", function() {
+    const audio = document.getElementById("memorial-music");
+    const mobileMusicBtn = document.getElementById("mobile-music-btn");
+    const mobileMusicIcon = document.getElementById("mobile-music-icon");
+    
+    if (audio && mobileMusicBtn && mobileMusicIcon && window.innerWidth <= 768) {
+        // 设置初始音量
+        audio.volume = 0.5;
+        
+        // 移动端音乐按钮点击事件
+        mobileMusicBtn.addEventListener("click", function() {
+            if (audio.paused) {
+                audio.play();
+                mobileMusicIcon.textContent = "⏸️";
+            } else {
+                audio.pause();
+                mobileMusicIcon.textContent = "▶️";
+            }
+        });
+        
+        // 更新播放/暂停图标
+        audio.addEventListener("ended", function() {
+            mobileMusicIcon.textContent = "▶️";
+        });
+        
+        // 错误处理
+        audio.addEventListener("error", function() {
+            console.error("Audio loading error:", audio.error);
+            mobileMusicIcon.textContent = "❌";
+        });
+        
+        // 自动播放尝试
+        setTimeout(() => {
+            audio.muted = false;
+            audio.play().catch(e => {
+                console.log("Autoplay blocked:", e);
+                mobileMusicIcon.textContent = "▶️";
+            });
+        }, 1000);
+    }
+});
