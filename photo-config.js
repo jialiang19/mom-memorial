@@ -234,7 +234,7 @@ function openModalGallery(stage) {
         grid-template-columns: ${gridColumns};
         gap: ${gridGap};
         padding: ${gridPadding};
-        max-width: 1200px;
+        max-width: 100%;
         margin: 0 auto;
     `;
     

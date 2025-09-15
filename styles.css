@@ -1080,3 +1080,39 @@ body {
         background: #A0522D !important;
     }
 }
+
+/* 模态画廊 - 最多4列 */
+.modal-gallery div[style*="grid-template-columns"] {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+    max-width: 100% !important;
+}
+
+/* 确保最多4列 */
+@media (min-width: 900px) {
+    .modal-gallery div[style*="grid-template-columns"] {
+        grid-template-columns: repeat(4, 1fr) !important;
+    }
+}
+
+/* 移动端保持2列 */
+@media (max-width: 768px) {
+    .modal-gallery div[style*="grid-template-columns"] {
+        grid-template-columns: repeat(2, 1fr) !important;
+        max-width: none !important;
+    }
+}
+
+/* 模态画廊 - 全宽显示 */
+.modal-gallery div[style*="grid-template-columns"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+}
+
+/* 确保4列填满整个宽度 */
+@media (min-width: 900px) {
+    .modal-gallery div[style*="grid-template-columns"] {
+        grid-template-columns: repeat(4, 1fr) !important;
+        width: 100% !important;
+    }
+}
