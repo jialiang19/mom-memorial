@@ -1,4 +1,4 @@
-// 模态画廊系统 - 主页面10张照片，点击查看全部
+// 响应式优化版本 - 移动端和桌面端兼容
 const photoConfig = {
     stages: {
         childhood: {
@@ -23,6 +23,11 @@ const photoConfig = {
         }
     }
 };
+
+// 检测移动设备
+function isMobile() {
+    return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
 
 // 生成照片配置
 function generatePhotoConfig() {
@@ -63,13 +68,15 @@ function generatePhotoConfig() {
 function loadPhotos() {
     generatePhotoConfig();
     
-    // 延迟加载确保DOM完全准备好
+    // 移动端延迟更短
+    const delay = isMobile() ? 50 : 100;
+    
     setTimeout(() => {
         loadPhotosForStage('childhood');
         loadPhotosForStage('youth');
         loadPhotosForStage('middle-china');
         loadPhotosForStage('middle-usa');
-    }, 100);
+    }, delay);
 }
 
 // 为特定阶段加载照片
@@ -101,9 +108,9 @@ function loadPhotosForStage(stage) {
     gridDiv.className = 'photo-grid';
     container.appendChild(gridDiv);
     
-    // 每个阶段显示8张照片
-    const displayCount = Math.min(8, stageData.photos.length);
-    console.log(`Loading ${displayCount} photos for ${stage}`);
+    // 移动端显示6张，桌面端显示8张
+    const displayCount = isMobile() ? Math.min(6, stageData.photos.length) : Math.min(8, stageData.photos.length);
+    console.log(`Loading ${displayCount} photos for ${stage} (mobile: ${isMobile()})`);
     
     for (let i = 0; i < displayCount; i++) {
         const photoItem = createPhotoItem(stageData.photos[i]);
@@ -111,7 +118,7 @@ function loadPhotosForStage(stage) {
     }
 }
 
-// 创建照片元素
+// 创建照片元素 - 响应式设计
 function createPhotoItem(photo) {
     const photoItem = document.createElement('div');
     photoItem.className = 'photo-item';
@@ -119,9 +126,12 @@ function createPhotoItem(photo) {
     const img = document.createElement('img');
     img.src = photo.src;
     img.alt = photo.caption;
+    
+    // 响应式图片高度
+    const imgHeight = isMobile() ? '200px' : '300px';
     img.style.cssText = `
         width: 100%;
-        height: 300px;
+        height: ${imgHeight};
         object-fit: contain;
         background-color: #f5f5f5;
         border: 1px solid #ddd;
@@ -146,12 +156,11 @@ function createPhotoItem(photo) {
     photoItem.appendChild(img);
     photoItem.appendChild(caption);
     
-    // 点击事件 - 修复模态照片点击
-    photoItem.addEventListener('click', function(e) {
+    // 点击事件
+    img.addEventListener('click', function() {
         console.log('Image clicked:', photo.src);
-        e.preventDefault();
         if (typeof createLightbox === 'function') {
-            createLightbox(this.src, this.alt);
+            createLightbox(photo.src, photo.caption);
         } else {
             console.error('createLightbox function not available');
         }
@@ -160,7 +169,7 @@ function createPhotoItem(photo) {
     return photoItem;
 }
 
-// 打开模态画廊
+// 打开模态画廊 - 响应式设计
 function openModalGallery(stage) {
     const stageData = photoConfig.stages[stage];
     
@@ -178,12 +187,13 @@ function openModalGallery(stage) {
         display: flex;
         flex-direction: column;
         overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     `;
     
     // 创建头部
     const header = document.createElement('div');
     header.style.cssText = `
-        padding: 20px;
+        padding: ${isMobile() ? '15px' : '20px'};
         background: rgba(0, 0, 0, 0.8);
         color: white;
         display: flex;
@@ -196,7 +206,7 @@ function openModalGallery(stage) {
     
     const title = document.createElement('h2');
     title.textContent = `${stageData.title} - 全部 ${stageData.photos.length} 张照片`;
-    title.style.cssText = 'margin: 0; font-size: 24px;';
+    title.style.cssText = `margin: 0; font-size: ${isMobile() ? '18px' : '24px'};`;
     
     const closeBtn = document.createElement('button');
     closeBtn.innerHTML = '×';
@@ -204,7 +214,7 @@ function openModalGallery(stage) {
         background: none;
         border: none;
         color: white;
-        font-size: 30px;
+        font-size: ${isMobile() ? '24px' : '30px'};
         cursor: pointer;
         padding: 5px 10px;
     `;
@@ -213,13 +223,17 @@ function openModalGallery(stage) {
     header.appendChild(title);
     header.appendChild(closeBtn);
     
-    // 创建照片网格
+    // 创建照片网格 - 响应式
     const galleryGrid = document.createElement('div');
+    const gridColumns = isMobile() ? 'repeat(auto-fill, minmax(120px, 1fr))' : 'repeat(auto-fill, minmax(200px, 1fr))';
+    const gridGap = isMobile() ? '10px' : '15px';
+    const gridPadding = isMobile() ? '15px' : '20px';
+    
     galleryGrid.style.cssText = `
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 15px;
-        padding: 20px;
+        grid-template-columns: ${gridColumns};
+        gap: ${gridGap};
+        padding: ${gridPadding};
         max-width: 1200px;
         margin: 0 auto;
     `;
@@ -244,7 +258,7 @@ function openModalGallery(stage) {
     document.addEventListener('keydown', handleEsc);
 }
 
-// 创建模态照片元素
+// 创建模态照片元素 - 响应式设计
 function createModalPhotoItem(photo, index) {
     const photoItem = document.createElement('div');
     photoItem.style.cssText = `
@@ -255,24 +269,30 @@ function createModalPhotoItem(photo, index) {
         transition: transform 0.2s ease;
     `;
     
-    photoItem.onmouseover = () => photoItem.style.transform = 'scale(1.05)';
-    photoItem.onmouseout = () => photoItem.style.transform = 'scale(1)';
+    // 只在桌面端添加hover效果
+    if (!isMobile()) {
+        photoItem.onmouseover = () => photoItem.style.transform = 'scale(1.05)';
+        photoItem.onmouseout = () => photoItem.style.transform = 'scale(1)';
+    }
     
     const img = document.createElement('img');
     img.src = photo.src;
     img.alt = photo.caption;
+    const imgHeight = isMobile() ? '120px' : '250px';
     img.style.cssText = `
         width: 100%;
-        height: 250px;
+        height: ${imgHeight};
         object-fit: contain;
         display: block;
+        background-color: #f5f5f5;
+        border: 1px solid #ddd;
     `;
     
     const caption = document.createElement('div');
     caption.textContent = photo.caption;
     caption.style.cssText = `
-        padding: 10px;
-        font-size: 12px;
+        padding: ${isMobile() ? '5px' : '10px'};
+        font-size: ${isMobile() ? '10px' : '12px'};
         color: #333;
         text-align: center;
     `;
@@ -280,7 +300,7 @@ function createModalPhotoItem(photo, index) {
     photoItem.appendChild(img);
     photoItem.appendChild(caption);
     
-    // 点击事件 - 修复模态照片点击
+    // 点击事件
     photoItem.addEventListener('click', function(e) {
         e.preventDefault();
         if (typeof createLightbox === 'function') {
