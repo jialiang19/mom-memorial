@@ -170,7 +170,19 @@ document.addEventListener("DOMContentLoaded", function() {
     
     if (audio && playPauseBtn && playIcon && volumeSlider) {
         // Set initial volume
+        audio.autoplay = true;
+        audio.loop = true;
         audio.volume = 0.5;
+        
+        // Auto-play music when page loads
+        setTimeout(() => {
+            audio.muted = false;
+            audio.play().catch(e => {
+                console.log("Autoplay blocked:", e);
+                // If autoplay is blocked, show play button
+                playIcon.textContent = "▶️";
+            });
+        }, 1000);
         
         // Play/Pause functionality
         playPauseBtn.addEventListener("click", function() {

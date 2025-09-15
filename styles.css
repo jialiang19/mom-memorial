@@ -1281,3 +1281,35 @@ body {
         max-height: 28px !important;
     }
 }
+
+/* 桌面端导航栏垂直间距修复 */
+@media (min-width: 769px) {
+    .navigation {
+        padding: 12px 0 !important;
+    }
+    
+    .navigation a {
+        padding: 8px 16px !important;
+        margin: 0 4px !important;
+        line-height: 1.4 !important;
+    }
+    
+    .navigation ul {
+        padding: 8px 0 !important;
+    }
+    
+    .navigation li {
+        padding: 4px 0 !important;
+    }
+}
+
+/* 确保导航栏有足够的高度 */
+.navigation {
+    min-height: 50px !important;
+}
+
+@media (min-width: 769px) {
+    .navigation {
+        min-height: 60px !important;
+    }
+}
