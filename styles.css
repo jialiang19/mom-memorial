@@ -1217,3 +1217,26 @@ body {
         background: white !important;
     }
 }
+
+/* 移动端导航栏完整显示/隐藏效果 */
+@media (max-width: 768px) {
+    .navigation {
+        transition: transform 0.3s ease-in-out !important;
+        transform: translateY(0) !important;
+    }
+    
+    .navigation.hidden {
+        transform: translateY(-100%) !important;
+    }
+    
+    /* 确保导航栏完全隐藏时不可见 */
+    .navigation.hidden {
+        visibility: hidden !important;
+        opacity: 0 !important;
+    }
+    
+    .navigation:not(.hidden) {
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+}

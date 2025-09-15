@@ -213,7 +213,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-// 移动端导航栏优化
+// 移动端导航栏优化 - 完整显示/隐藏
 document.addEventListener("DOMContentLoaded", function() {
     const navigation = document.querySelector(".navigation");
     
@@ -226,18 +226,18 @@ document.addEventListener("DOMContentLoaded", function() {
         window.addEventListener("scroll", function() {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             
-            // 向下滚动时隐藏导航栏
+            // 向下滚动时完全隐藏导航栏
             if (scrollTop > lastScrollTop && scrollTop > 100) {
-                navigation.style.transform = "translateY(-100%)";
+                navigation.classList.add("hidden");
             } else {
-                // 向上滚动时显示导航栏
-                navigation.style.transform = "translateY(0)";
+                // 向上滚动时完全显示导航栏
+                navigation.classList.remove("hidden");
             }
             
             lastScrollTop = scrollTop;
         });
         
         // 添加过渡效果
-        navigation.style.transition = "transform 0.3s ease";
+        // Transition handled by CSS
     }
 });
