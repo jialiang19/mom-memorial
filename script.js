@@ -200,3 +200,32 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 });
+
+// 移动端导航栏优化
+document.addEventListener("DOMContentLoaded", function() {
+    const navigation = document.querySelector(".navigation");
+    
+    if (navigation && window.innerWidth <= 768) {
+        // 添加固定导航栏类
+        navigation.classList.add("fixed");
+        
+        // 监听滚动事件
+        let lastScrollTop = 0;
+        window.addEventListener("scroll", function() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // 向下滚动时隐藏导航栏
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                navigation.style.transform = "translateY(-100%)";
+            } else {
+                // 向上滚动时显示导航栏
+                navigation.style.transform = "translateY(0)";
+            }
+            
+            lastScrollTop = scrollTop;
+        });
+        
+        // 添加过渡效果
+        navigation.style.transition = "transform 0.3s ease";
+    }
+});

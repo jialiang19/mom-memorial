@@ -1116,3 +1116,73 @@ body {
         width: 100% !important;
     }
 }
+
+/* 移动端导航栏优化 */
+@media (max-width: 768px) {
+    /* 导航栏整体 */
+    .navigation {
+        padding: 8px 0 !important;
+        background: rgba(139, 69, 19, 0.95) !important;
+    }
+    
+    /* 导航链接 */
+    .navigation a {
+        padding: 6px 8px !important;
+        font-size: 12px !important;
+        margin: 0 2px !important;
+        border-radius: 4px !important;
+    }
+    
+    /* 导航容器 */
+    .navigation .container {
+        padding: 0 10px !important;
+    }
+    
+    /* 导航链接悬停效果 */
+    .navigation a:hover {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+    }
+    
+    /* 活动状态 */
+    .navigation a.active {
+        background-color: rgba(255, 255, 255, 0.2) !important;
+    }
+}
+
+/* 超小屏幕进一步优化 */
+@media (max-width: 480px) {
+    .navigation {
+        padding: 6px 0 !important;
+    }
+    
+    .navigation a {
+        padding: 4px 6px !important;
+        font-size: 11px !important;
+        margin: 0 1px !important;
+    }
+    
+    .navigation .container {
+        padding: 0 5px !important;
+    }
+}
+
+/* 固定导航栏优化 */
+.navigation.fixed {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+/* 为固定导航栏添加顶部间距 */
+@media (max-width: 768px) {
+    body {
+        padding-top: 0 !important;
+    }
+    
+    .hero {
+        margin-top: 0 !important;
+    }
+}
