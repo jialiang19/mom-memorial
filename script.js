@@ -1,5 +1,10 @@
 // Global createLightbox function - moved outside DOMContentLoaded
 function createLightbox(src, alt) {
+    // 关闭任何现有的灯箱
+    const existingLightbox = document.querySelector('.lightbox');
+    if (existingLightbox) {
+        document.body.removeChild(existingLightbox);
+    }
     // 创建灯箱覆盖层
     const lightbox = document.createElement('div');
     lightbox.className = 'lightbox';
@@ -13,7 +18,7 @@ function createLightbox(src, alt) {
         display: flex;
         justify-content: center;
         align-items: center;
-        z-index: 1000;
+        z-index: 3000;
         cursor: pointer;
     `;
 
@@ -40,7 +45,7 @@ function createLightbox(src, alt) {
         font-size: 40px;
         font-weight: bold;
         cursor: pointer;
-        z-index: 1001;
+        z-index: 3001;
     `;
 
     // 创建标题

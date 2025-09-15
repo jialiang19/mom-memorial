@@ -101,8 +101,8 @@ function loadPhotosForStage(stage) {
     gridDiv.className = 'photo-grid';
     container.appendChild(gridDiv);
     
-    // 每个阶段显示10张照片
-    const displayCount = Math.min(10, stageData.photos.length);
+    // 每个阶段显示8张照片
+    const displayCount = Math.min(8, stageData.photos.length);
     console.log(`Loading ${displayCount} photos for ${stage}`);
     
     for (let i = 0; i < displayCount; i++) {
@@ -146,9 +146,10 @@ function createPhotoItem(photo) {
     photoItem.appendChild(img);
     photoItem.appendChild(caption);
     
-    // 点击事件
-    img.addEventListener('click', function() {
+    // 点击事件 - 修复模态照片点击
+    photoItem.addEventListener('click', function(e) {
         console.log('Image clicked:', photo.src);
+        e.preventDefault();
         if (typeof createLightbox === 'function') {
             createLightbox(this.src, this.alt);
         } else {
@@ -279,8 +280,9 @@ function createModalPhotoItem(photo, index) {
     photoItem.appendChild(img);
     photoItem.appendChild(caption);
     
-    // 点击事件
-    photoItem.addEventListener('click', function() {
+    // 点击事件 - 修复模态照片点击
+    photoItem.addEventListener('click', function(e) {
+        e.preventDefault();
         if (typeof createLightbox === 'function') {
             createLightbox(photo.src, photo.caption);
         }
