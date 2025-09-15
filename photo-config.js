@@ -2,7 +2,7 @@
 const photoConfig = {
     stages: {
         childhood: {
-            title: "少年时期",
+            title: "老照片",
             count: 37,
             photos: []
         },
@@ -35,7 +35,7 @@ function generatePhotoConfig() {
     for (let i = 1; i <= 37; i++) {
         photoConfig.stages.childhood.photos.push({
             src: `images/childhood${i}.jpg`,
-            caption: `少年时期 - 照片${i}`
+            caption: `老照片 - 照片${i}`
         });
     }
     
